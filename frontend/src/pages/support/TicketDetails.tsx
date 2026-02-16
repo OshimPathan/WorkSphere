@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import api from '../../services/api';
-import { Ticket, TicketStatus, Priority } from '../../types/ticket';
+import type { Ticket } from '../../types/ticket';
+import { TicketStatus, Priority } from '../../types/ticket';
 import { ArrowLeft, Send, User, Clock, MessageSquare } from 'lucide-react';
 
 interface Comment {
@@ -113,8 +114,8 @@ const TicketDetails = () => {
                         <div className="flex items-center gap-2">
                             <span className="font-semibold text-gray-700">Priority:</span>
                             <span className={`uppercase font-bold text-xs ${ticket.priority === Priority.CRITICAL ? 'text-red-600' :
-                                    ticket.priority === Priority.HIGH ? 'text-orange-600' :
-                                        'text-gray-600'
+                                ticket.priority === Priority.HIGH ? 'text-orange-600' :
+                                    'text-gray-600'
                                 }`}>
                                 {ticket.priority}
                             </span>

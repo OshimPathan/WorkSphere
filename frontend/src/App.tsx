@@ -1,5 +1,6 @@
 import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
+import { SocketProvider } from './context/SocketContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
@@ -27,6 +28,10 @@ import Events from './pages/company/Events';
 import TicketList from './pages/support/TicketList';
 import TicketDetails from './pages/support/TicketDetails';
 import Feedback from './pages/support/Feedback';
+
+// Chat
+import ChatLayout from './pages/chat/ChatLayout';
+import ChatArea from './pages/chat/ChatArea';
 
 const Unauthorized = () => <div className="p-10 text-center text-red-500">Unauthorized Access</div>;
 
@@ -79,6 +84,15 @@ const router = createBrowserRouter([
           { path: 'tickets/new', element: <TicketList /> }, // Just redirect or handle in List? List has modal.
 
           { path: 'feedback', element: <Feedback /> },
+
+          // Chat
+          {
+            path: 'chat',
+            element: <ChatLayout />,
+            children: [
+              { path: ':channelId', element: <ChatArea /> }
+            ]
+          },
         ]
       }
     ]
@@ -92,7 +106,9 @@ const router = createBrowserRouter([
 function App() {
   return (
     <AuthProvider>
-      <RouterProvider router={router} />
+      <SocketProvider>
+        <RouterProvider router={router} />
+      </SocketProvider>
     </AuthProvider>
   );
 }

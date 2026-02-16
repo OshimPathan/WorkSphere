@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../../services/api';
-import { Ticket, TicketStatus, Priority, TicketType } from '../../types/ticket';
+import type { Ticket } from '../../types/ticket';
+import { TicketStatus, Priority } from '../../types/ticket';
 import PageHeader from '../../components/PageHeader';
-import { Plus, Search, Filter, MessageSquare, Clock, CheckCircle, AlertCircle } from 'lucide-react';
+import { Plus, Search, Filter, MessageSquare, Clock, CheckCircle } from 'lucide-react';
 
 const TicketList = () => {
     const navigate = useNavigate();

@@ -102,6 +102,7 @@ const TopNavigation = () => {
                 {
                     category: 'Communication',
                     items: [
+                        { label: 'Team Chat', path: '/chat', icon: MessageSquare, description: 'Real-time team messaging' },
                         { label: 'Announcements', path: '/announcements', icon: Megaphone, description: 'Latest news and updates' }, // Placeholder
                         { label: 'Events', path: '/events', icon: Calendar, description: 'Upcoming company events' }, // Placeholder
                     ]

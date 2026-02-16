@@ -58,6 +58,7 @@ model Organization {
   leaves      Leave[]
   dailyUpdates DailyUpdate[]
   tickets     Ticket[]
+  channels    Channel[]
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
 }
@@ -98,6 +99,10 @@ model User {
   ticketsCreated   Ticket[]        @relation("TicketCreator")
   ticketsAssigned  Ticket[]        @relation("TicketAssignee")
   ticketComments   TicketComment[]
+
+  // Chat
+  channelMemberships ChannelMember[]
+  messagesSent       Message[]
 }
 
 model Department {
@@ -289,3 +294,58 @@ model TicketComment {
   createdAt DateTime @default(now())
 }
 
+// =======================
+// Chat System Models 💬
+// =======================
+
+enum ChannelType {
+  PUBLIC
+  PRIVATE
+  DIRECT
+}
+
+model Channel {
+  id             String          @id @default(uuid())
+  name           String
+  type           ChannelType     @default(PUBLIC)
+  description    String?
+  
+  organizationId String
+  organization   Organization    @relation(fields: [organizationId], references: [id])
+  
+  members        ChannelMember[]
+  messages       Message[]
+  
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+}
+
+model ChannelMember {
+  id        String   @id @default(uuid())
+  channelId String
+  channel   Channel  @relation(fields: [channelId], references: [id])
+  
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  
+  role      String   @default("MEMBER") // ADMIN, MEMBER
+  joinedAt  DateTime @default(now())
+
+  @@unique([channelId, userId])
+}
+
+model Message {
+  id        String   @id @default(uuid())
+  content   String
+  
+  senderId  String
+  sender    User     @relation(fields: [senderId], references: [id])
+  
+  channelId String
+  channel   Channel  @relation(fields: [channelId], references: [id])
+  
+  attachments String? // JSON string or URL
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

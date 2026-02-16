@@ -132,6 +132,30 @@ async function main() {
         }
     });
 
+    // 8. Create General Channel
+    const existingChannel = await prisma.channel.findFirst({
+        where: { name: 'General', organizationId: demoOrg.id }
+    });
+
+    if (!existingChannel) {
+        await prisma.channel.create({
+            data: {
+                name: 'General',
+                type: 'PUBLIC',
+                description: 'General discussion for everyone',
+                organizationId: demoOrg.id,
+                members: {
+                    create: [
+                        { userId: admin.id, role: 'ADMIN' },
+                        { userId: employee.id, role: 'MEMBER' },
+                        { userId: hr.id, role: 'MEMBER' }
+                    ]
+                }
+            }
+        });
+        console.log('Created General Channel');
+    }
+
     console.log('Seeding completed. Organization created:', demoOrg.name);
 }
 

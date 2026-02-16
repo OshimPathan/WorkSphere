@@ -6,6 +6,7 @@ import taskRoutes from './taskRoutes';
 import projectRoutes from './projectRoutes';
 import userRoutes from './userRoutes';
 import ticketRoutes from './ticketRoutes';
+import chatRoutes from './chatRoutes';
 
 const router = Router();
 
@@ -16,5 +17,6 @@ router.use('/tasks', taskRoutes);
 router.use('/projects', projectRoutes);
 router.use('/users', userRoutes);
 router.use('/tickets', ticketRoutes);
+router.use('/chat', chatRoutes);
 
 export default router;
