@@ -23,7 +23,9 @@ import Payroll from './pages/finance/Payroll';
 import Expenses from './pages/finance/Expenses';
 import Announcements from './pages/company/Announcements';
 import Events from './pages/company/Events';
-import Helpdesk from './pages/support/Helpdesk';
+// import Helpdesk from './pages/support/Helpdesk'; // Replaced
+import TicketList from './pages/support/TicketList';
+import TicketDetails from './pages/support/TicketDetails';
 import Feedback from './pages/support/Feedback';
 
 const Unauthorized = () => <div className="p-10 text-center text-red-500">Unauthorized Access</div>;
@@ -71,7 +73,11 @@ const router = createBrowserRouter([
           { path: 'events', element: <Events /> },
 
           // Support
-          { path: 'help', element: <Helpdesk /> },
+          // { path: 'help', element: <Helpdesk /> },
+          { path: 'tickets', element: <TicketList /> },
+          { path: 'tickets/:id', element: <TicketDetails /> },
+          { path: 'tickets/new', element: <TicketList /> }, // Just redirect or handle in List? List has modal.
+
           { path: 'feedback', element: <Feedback /> },
         ]
       }

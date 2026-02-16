@@ -1,4 +1,4 @@
-import { PrismaClient, Role } from '@prisma/client';
+import { PrismaClient, Role, Priority, TaskStatus, LeaveStatus, LeaveType } from '@prisma/client';
 import bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();
@@ -114,8 +114,8 @@ async function main() {
             organizationId: demoOrg.id,
             assignedToId: employee.id,
             createdById: admin.id,
-            status: 'IN_PROGRESS',
-            priority: 'HIGH'
+            status: TaskStatus.IN_PROGRESS,
+            priority: Priority.HIGH
         }
     });
 
@@ -127,8 +127,8 @@ async function main() {
             reason: 'Vacation',
             startDate: new Date(),
             endDate: new Date(new Date().setDate(new Date().getDate() + 2)),
-            type: 'VACATION',
-            status: 'PENDING'
+            type: LeaveType.VACATION,
+            status: LeaveStatus.PENDING
         }
     });
 

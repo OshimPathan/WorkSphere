@@ -57,6 +57,7 @@ model Organization {
   tasks       Task[]
   leaves      Leave[]
   dailyUpdates DailyUpdate[]
+  tickets     Ticket[]
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
 }
@@ -92,6 +93,11 @@ model User {
   joiningDate    DateTime  @default(now())
   phoneNumber    String?
   dailyUpdates   DailyUpdate[]
+  
+  // Ticketing
+  ticketsCreated   Ticket[]        @relation("TicketCreator")
+  ticketsAssigned  Ticket[]        @relation("TicketAssignee")
+  ticketComments   TicketComment[]
 }
 
 model Department {
@@ -227,3 +233,59 @@ model ActivityLog {
   details   String?
   createdAt DateTime @default(now())
 }
+
+// =======================
+// Ticketing System Models
+// =======================
+
+enum TicketStatus {
+  OPEN
+  IN_PROGRESS
+  RESOLVED
+  CLOSED
+}
+
+enum TicketType {
+  ISSUE
+  BUG
+  FEATURE_REQUEST
+  SUPPORT
+}
+
+model Ticket {
+  id             String       @id @default(uuid())
+  subject        String
+  description    String
+  status         TicketStatus @default(OPEN)
+  priority       Priority     @default(MEDIUM)
+  type           TicketType   @default(ISSUE)
+  
+  // Relations
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  
+  createdById    String
+  createdBy      User         @relation("TicketCreator", fields: [createdById], references: [id])
+  
+  assignedToId   String?
+  assignedTo     User?        @relation("TicketAssignee", fields: [assignedToId], references: [id])
+  
+  comments       TicketComment[]
+  
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+}
+
+model TicketComment {
+  id        String   @id @default(uuid())
+  content   String
+  
+  ticketId  String
+  ticket    Ticket   @relation(fields: [ticketId], references: [id])
+  
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  
+  createdAt DateTime @default(now())
+}
+

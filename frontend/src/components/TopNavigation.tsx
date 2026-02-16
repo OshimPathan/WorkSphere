@@ -109,7 +109,7 @@ const TopNavigation = () => {
                 {
                     category: 'Support',
                     items: [
-                        { label: 'Helpdesk', path: '/help', icon: LifeBuoy, description: 'IT and Admin support' }, // Placeholder
+                        { label: 'Helpdesk', path: '/tickets', icon: LifeBuoy, description: 'IT and Admin support' }, // Placeholder
                         { label: 'Feedback', path: '/feedback', icon: MessageSquare, description: 'Share your thoughts' }, // Placeholder
                     ]
                 }
